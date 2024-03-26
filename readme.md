@@ -23,7 +23,8 @@ https://dash.cloudflare.com/profile/api-tokens
 
 打开域名控制台，右侧底部如图所示
 
-<img width="298" alt="image" src="https://github.com/csznet/mata/assets/127601663/1f5a92d2-dc13-47ba-be5e-6ebe918dba20">  
+<img width="452" alt="image" src="https://github.com/csznet/mata/assets/127601663/24b3ea58-afe0-40a5-9e15-9240c5ebd1fb">
+
 
 ### 参数说明  
 
