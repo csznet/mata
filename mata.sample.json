@@ -1,0 +1,38 @@
+{
+    "ApiKey": "",
+    "ZoneID": "",
+    "BotToken": "",
+    "ChatID": "",
+    "Target":"1.1.1.1:80",
+    "Mata": {
+      "Main": [
+        {
+          "type": "A",
+          "name": "csz.net",
+          "content": "1.1.1.1",
+          "proxied": false
+        },
+        {
+          "type": "A",
+          "name": "www.csz.net",
+          "content": "1.1.1.1",
+          "proxied": false
+        }
+      ],
+      "Then": [
+        {
+          "type": "CNAME",
+          "name": "csz.net",
+          "content": "2.2.2.2",
+          "proxied": true
+        },
+        {
+          "type": "CNAME",
+          "name": "www.csz.net",
+          "content": "2.2.2.2",
+          "proxied": true
+        }
+      ]
+    }
+  }
+  
