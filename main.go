@@ -9,7 +9,7 @@ import (
 	"csz.net/mata/utils"
 )
 
-var Sus bool
+var Once bool
 
 func main() {
 	if conf.Config.Target == "" {
@@ -26,7 +26,7 @@ func main() {
 			log.Println(message)
 			updateDNSRecords(conf.Config.Mata.Then, message)
 		}
-		if Sus {
+		if Once {
 			return
 		}
 		time.Sleep(300 * time.Second)
@@ -50,9 +50,9 @@ func updateDNSRecords(records []conf.DNSRecord, message string) {
 }
 
 func init() {
-	sus := flag.Bool("sus", false, "Disable Sustain")
+	once := flag.Bool("once", false, "Run once")
 	flag.Parse()
-	if *sus {
-		Sus = true
+	if *once {
+		Once = true
 	}
 }
