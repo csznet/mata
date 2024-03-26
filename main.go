@@ -29,7 +29,7 @@ func main() {
 		if Sus {
 			return
 		}
-		time.Sleep(10 * time.Second)
+		time.Sleep(300 * time.Second)
 	}
 }
 
