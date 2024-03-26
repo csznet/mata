@@ -62,14 +62,3 @@ Main为当服务器正常时的解析，Then为当服务器离线时的解析
 ### 服务器运行  
 
 下载系统对应的编译包，将`mata.sample.json`改名为`mata.json`并运行  
-
-
-### 无服务器运行  
-
-1. fork本项目，将`mata.sample.json`改名为`mata.json`  
-
-2. 将fork的项目改为private  
-
-3. 将项目`.github/workflows/mata.yml`中的注释去掉
-
-项目将会使用Github Action每五分钟进行一次检测    
