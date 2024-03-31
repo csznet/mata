@@ -2,6 +2,7 @@
     "ApiKey": "",
     "BotToken": "",
     "ChatID": "",
+    "TgApiUrl":"https://api.telegram.org",
     "Corn":500,
     "Mata": [
       {

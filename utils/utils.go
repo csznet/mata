@@ -87,7 +87,7 @@ func GetDnsRecoid(recoid string, ZoneID string) (bool, conf.OneRes) {
 }
 
 func SendMessage(text string) {
-	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", conf.Config.BotToken)
+	url := fmt.Sprintf(conf.Config.TgApiUrl+"/bot%s/sendMessage", conf.Config.BotToken)
 	requestBody := fmt.Sprintf(`{"chat_id": "%s", "text": "%s"}`, conf.Config.ChatID, text)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(requestBody)))
 	if err != nil {

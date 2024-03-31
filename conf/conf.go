@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 )
 
 // DNSRecord 用于构造 DNS 记录的 JSON 结构体
@@ -40,6 +41,7 @@ type cf struct {
 	ZoneID   string
 	BotToken string
 	ChatID   string
+	TgApiUrl string
 	Corn     int64
 	Mata     []Mata
 }
@@ -62,4 +64,5 @@ func init() {
 		fmt.Println("mata.json配置文件错误")
 		os.Exit(0)
 	}
+	Config.TgApiUrl = strings.TrimRight(Config.TgApiUrl, "/")
 }
