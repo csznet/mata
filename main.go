@@ -12,43 +12,40 @@ import (
 var Once bool
 
 func main() {
-	if conf.Config.Target == "" {
-		return
-	}
 	for {
-		online := utils.Check(conf.Config.Target, 5*time.Second)
-		if online {
-			message := "服务器在线"
-			log.Println(message)
-			updateDNSRecords(conf.Config.Mata.Main, message)
-		} else {
-			message := "服务器离线"
-			log.Println(message)
-			updateDNSRecords(conf.Config.Mata.Then, message)
+		for _, mata := range conf.Config.Mata {
+			log.Println("开始检测" + mata.Target)
+			send := false
+			msg := "服务器在线"
+			online := utils.Check(mata.Target, 5*time.Second)
+			if online {
+				log.Println(msg)
+				ok, dns := utils.GetDnsRecoid(mata.Main.Name, mata.Main.ZoneID)
+				if ok && dns.Content != mata.Main.Content {
+					send = true
+					log.Printf("修改解析【%s】\n", mata.Main.Name)
+					utils.Dns(mata.Main, dns.ID, mata.Main.ZoneID)
+				}
+			} else {
+				msg = "服务器离线"
+				log.Println(msg)
+				ok, dns := utils.GetDnsRecoid(mata.Then.Name, mata.Then.ZoneID)
+				if ok && dns.Content != mata.Then.Content {
+					send = true
+					log.Printf("修改解析【%s】\n", mata.Then.Name)
+					utils.Dns(mata.Then, dns.ID, mata.Then.ZoneID)
+				}
+			}
+			if send && conf.Config.BotToken != "" && conf.Config.ChatID != "" {
+				utils.SendMessage(msg)
+			}
 		}
 		if Once {
 			return
 		}
-		time.Sleep(300 * time.Second)
+		time.Sleep(time.Duration(conf.Config.Corn) * time.Second)
 	}
 }
-
-func updateDNSRecords(records []conf.DNSRecord, message string) {
-	send := false
-	for _, record := range records {
-		ok, dns := utils.GetDnsRecoid(record.Name)
-		if ok && dns.Content != record.Content {
-			send = true
-			log.Printf("修改解析【%s】\n", record.Name)
-			utils.Dns(record, dns.ID)
-		}
-		time.Sleep(5 * time.Second)
-	}
-	if send && conf.Config.BotToken != "" && conf.Config.ChatID != "" {
-		utils.SendMessage(message)
-	}
-}
-
 func init() {
 	once := flag.Bool("once", false, "Run once")
 	flag.Parse()

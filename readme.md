@@ -49,15 +49,19 @@ Telegram ChatID
 
 当服务器状态改变时发送通知，不启用保持为空即可  
 
-**Target**  
+**Corn**  
 
-需要监控的服务器，采用TCP监控，需带上端口号  
+监控间隔，单位 秒  
 
 **Mata**  
 
 Main为当服务器正常时的解析，Then为当服务器离线时的解析  
 
 `proxied`为是否启用CloudFlare CDN
+
+**Target**  
+
+需要监控的服务器，采用TCP监控，需带上端口号  
 
 ### 服务器运行  
 

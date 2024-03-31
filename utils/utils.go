@@ -21,9 +21,9 @@ func Check(address string, timeout time.Duration) bool {
 	return true        // 连接成功
 }
 
-func Dns(record conf.DNSRecord, recordID string) bool {
+func Dns(record conf.DNSRecord, recordID string, ZoneID string) bool {
 
-	url := "https://api.cloudflare.com/client/v4/zones/" + conf.Config.ZoneID + "/dns_records/" + recordID
+	url := "https://api.cloudflare.com/client/v4/zones/" + ZoneID + "/dns_records/" + recordID
 
 	recordBytes, err := json.Marshal(record)
 	if err != nil {
@@ -45,9 +45,9 @@ func Dns(record conf.DNSRecord, recordID string) bool {
 	return true
 }
 
-func GetDnsRecoid(recoid string) (bool, conf.OneRes) {
+func GetDnsRecoid(recoid string, ZoneID string) (bool, conf.OneRes) {
 	var no conf.OneRes
-	url := "https://api.cloudflare.com/client/v4/zones/" + conf.Config.ZoneID + "/dns_records"
+	url := "https://api.cloudflare.com/client/v4/zones/" + ZoneID + "/dns_records"
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {

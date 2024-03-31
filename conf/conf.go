@@ -8,6 +8,7 @@ import (
 
 // DNSRecord 用于构造 DNS 记录的 JSON 结构体
 type DNSRecord struct {
+	ZoneID  string `json:"ZoneID"`
 	Type    string `json:"type"`
 	Name    string `json:"name"`
 	Content string `json:"content"`
@@ -29,17 +30,18 @@ type OneRes struct {
 }
 
 type Mata struct {
-	Main []DNSRecord
-	Then []DNSRecord
+	Target string
+	Main   DNSRecord
+	Then   DNSRecord
 }
 
 type cf struct {
-	Target   string
 	ApiKey   string
 	ZoneID   string
 	BotToken string
 	ChatID   string
-	Mata     Mata
+	Corn     int64
+	Mata     []Mata
 }
 
 var Config cf
@@ -49,7 +51,7 @@ func init() {
 	file, err := os.Open("mata.json")
 	if err != nil {
 		fmt.Println("mata.json配置文件不存在")
-		return
+		os.Exit(0)
 	}
 	defer file.Close()
 
@@ -58,6 +60,6 @@ func init() {
 	err = decoder.Decode(&Config)
 	if err != nil {
 		fmt.Println("mata.json配置文件错误")
-		return
+		os.Exit(0)
 	}
 }
