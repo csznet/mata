@@ -37,7 +37,8 @@ func main() {
 				}
 			}
 			if send && conf.Config.BotToken != "" && conf.Config.ChatID != "" {
-				utils.SendMessage(msg)
+				msg = "【" + mata.Target + "】" + msg
+				go utils.SendMessage(msg)
 			}
 		}
 		if Once {
