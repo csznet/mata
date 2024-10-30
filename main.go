@@ -17,7 +17,17 @@ func main() {
 			log.Println("开始检测" + mata.Target)
 			send := false
 			msg := "服务器在线"
-			online := utils.Check(mata.Target, 5*time.Second)
+			onlineCount := 0
+			online := false
+			for i := 0; i < 3; i++ {
+				if utils.Check(mata.Target, 5*time.Second) {
+					onlineCount++
+				}
+				time.Sleep(10 * time.Second)
+			}
+			if onlineCount >= 2 {
+				online = true
+			}
 			if online {
 				log.Println(msg)
 				ok, dns := utils.GetDnsRecoid(mata.Main.Name, mata.Main.ZoneID)

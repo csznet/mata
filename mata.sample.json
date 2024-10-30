@@ -1,44 +1,43 @@
 {
-    "ApiKey": "",
-    "BotToken": "",
-    "ChatID": "",
-    "TgApiUrl":"https://api.telegram.org",
-    "Corn":500,
-    "Mata": [
-      {
-        "Target": "1.1.1.1:80",
-        "Main": {
-          "ZoneID": "",
-          "Type": "A",
-          "Name": "csz.net",
-          "Content": "1.1.1.1",
-          "Proxied": false
-        },
-        "Then": {
-          "ZoneID": "",
-          "Type": "A",
-          "Name": "csz..net",
-          "Content": "2.2.2.2",
-          "Proxied": true
-        }
+  "ApiKey": "",
+  "BotToken": "",
+  "ChatID": "",
+  "TgApiUrl": "https://api.telegram.org",
+  "Corn": 300,
+  "Mata": [
+    {
+      "Target": "1.1.1.1:80",
+      "Main": {
+        "ZoneID": "",
+        "Type": "A",
+        "Name": "csz.net",
+        "Content": "1.1.1.1",
+        "Proxied": false
       },
-      {
-        "Target": "1.1.1.1:80",
-        "Main": {
-          "ZoneID": "",
-          "Type": "A",
-          "Name": "www.csz.net",
-          "Content": "1.1.1.1",
-          "Proxied": false
-        },
-        "Then": {
-          "ZoneID": "",
-          "Type": "A",
-          "Name": "www.csz.net",
-          "Content": "2.2.2.2",
-          "Proxied": true
-        }
+      "Then": {
+        "ZoneID": "",
+        "Type": "A",
+        "Name": "csz..net",
+        "Content": "2.2.2.2",
+        "Proxied": true
       }
-    ]
-  }
-  
+    },
+    {
+      "Target": "1.1.1.1:80",
+      "Main": {
+        "ZoneID": "",
+        "Type": "A",
+        "Name": "www.csz.net",
+        "Content": "1.1.1.1",
+        "Proxied": false
+      },
+      "Then": {
+        "ZoneID": "",
+        "Type": "A",
+        "Name": "www.csz.net",
+        "Content": "2.2.2.2",
+        "Proxied": true
+      }
+    }
+  ]
+}
