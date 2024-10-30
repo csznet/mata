@@ -17,7 +17,7 @@
       "Then": {
         "ZoneID": "",
         "Type": "A",
-        "Name": "csz..net",
+        "Name": "csz.net",
         "Content": "2.2.2.2",
         "Proxied": true
       }

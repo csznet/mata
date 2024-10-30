@@ -16,7 +16,7 @@ func main() {
 		for _, mata := range conf.Config.Mata {
 			log.Println("开始检测" + mata.Target)
 			send := false
-			msg := "#MATA 服务器在线"
+			msg := "服务器在线"
 			onlineCount := 0
 			online := false
 			for i := 0; i < 3; i++ {
@@ -37,7 +37,7 @@ func main() {
 					utils.Dns(mata.Main, dns.ID, mata.Main.ZoneID)
 				}
 			} else {
-				msg = "#MATA 服务器离线"
+				msg = "服务器离线"
 				log.Println(msg)
 				ok, dns := utils.GetDnsRecoid(mata.Then.Name, mata.Then.ZoneID)
 				if ok && dns.Content != mata.Then.Content {
@@ -48,7 +48,7 @@ func main() {
 			}
 			if send && conf.Config.BotToken != "" && conf.Config.ChatID != "" {
 				msg = "【" + mata.Target + "】" + msg
-				go utils.SendMessage(msg)
+				go utils.SendMessage("#MATA " + msg)
 			}
 		}
 		if Once {
