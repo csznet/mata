@@ -1,5 +1,5 @@
 {
-  "ApiKey": "",
+  "cf_api_key": "",
   "BotToken": "",
   "ChatID": "",
   "TgApiUrl": "https://api.telegram.org",
@@ -7,6 +7,7 @@
   "Mata": [
     {
       "Target": "1.1.1.1:80",
+      "ps": "csz.net",
       "Main": {
         "ZoneID": "",
         "Type": "A",

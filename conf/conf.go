@@ -1,12 +1,5 @@
 package conf
 
-import (
-	"encoding/json"
-	"fmt"
-	"os"
-	"strings"
-)
-
 // DNSRecord 用于构造 DNS 记录的 JSON 结构体
 type DNSRecord struct {
 	ZoneID  string `json:"ZoneID"`
@@ -32,12 +25,13 @@ type OneRes struct {
 
 type Mata struct {
 	Target string
+	PS     string `json:"ps"`
 	Main   DNSRecord
 	Then   DNSRecord
 }
 
 type cf struct {
-	ApiKey   string
+	ApiKey   string `json:"cf_api_key"`
 	ZoneID   string
 	BotToken string
 	ChatID   string
@@ -47,22 +41,3 @@ type cf struct {
 }
 
 var Config cf
-
-func init() {
-	// 读取配置文件
-	file, err := os.Open("mata.json")
-	if err != nil {
-		fmt.Println("mata.json配置文件不存在")
-		os.Exit(0)
-	}
-	defer file.Close()
-
-	// 解码 JSON
-	decoder := json.NewDecoder(file)
-	err = decoder.Decode(&Config)
-	if err != nil {
-		fmt.Println("mata.json配置文件错误")
-		os.Exit(0)
-	}
-	Config.TgApiUrl = strings.TrimRight(Config.TgApiUrl, "/")
-}

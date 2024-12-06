@@ -1,8 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
+	"fmt"
 	"log"
+	"os"
+	"strings"
 	"time"
 
 	"csz.net/mata/conf"
@@ -14,7 +18,10 @@ var Once bool
 func main() {
 	for {
 		for _, mata := range conf.Config.Mata {
-			log.Println("开始检测" + mata.Target)
+			if mata.PS == "" {
+				mata.PS = mata.Target
+			}
+			log.Println("开始检测" + mata.PS)
 			send := false
 			msg := "服务器在线"
 			onlineCount := 0
@@ -39,6 +46,10 @@ func main() {
 			} else {
 				msg = "服务器离线"
 				log.Println(msg)
+				if mata.Then.ZoneID == "" {
+					// 不填写then的zoneid则默认为main的zoneid
+					mata.Then.ZoneID = mata.Main.ZoneID
+				}
 				ok, dns := utils.GetDnsRecoid(mata.Then.Name, mata.Then.ZoneID)
 				if ok && dns.Content != mata.Then.Content {
 					send = true
@@ -47,7 +58,7 @@ func main() {
 				}
 			}
 			if send && conf.Config.BotToken != "" && conf.Config.ChatID != "" {
-				msg = "【" + mata.Target + "】" + msg
+				msg = "【" + mata.PS + "】" + msg
 				go utils.SendMessage("#MATA " + msg)
 			}
 		}
@@ -59,8 +70,28 @@ func main() {
 }
 func init() {
 	once := flag.Bool("once", false, "Run once")
+	configPath := flag.String("config", "mata.json", "Config file path")
 	flag.Parse()
 	if *once {
 		Once = true
 	}
+	configInit(*configPath)
+}
+func configInit(path string) {
+	// 读取配置文件
+	file, err := os.Open(path)
+	if err != nil {
+		fmt.Println(path + "配置文件不存在")
+		os.Exit(0)
+	}
+	defer file.Close()
+
+	// 解码 JSON
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(&conf.Config)
+	if err != nil {
+		fmt.Println(path + "配置文件错误")
+		os.Exit(0)
+	}
+	conf.Config.TgApiUrl = strings.TrimRight(conf.Config.TgApiUrl, "/")
 }
