@@ -1,22 +1,22 @@
 {
-  "cf_api_key": "",
-  "BotToken": "",
-  "ChatID": "",
+  "cf_api_key": "Cloudflare Zone API Token",
+  "BotToken": "Telegram Bot Token",
+  "ChatID": "Telegram Chat ID",
   "TgApiUrl": "https://api.telegram.org",
   "Corn": 300,
   "Mata": [
     {
       "Target": "1.1.1.1:80",
-      "ps": "csz.net",
+      "ps": "官网",
       "Main": {
-        "ZoneID": "",
+        "ZoneID": "123456",
         "Type": "A",
         "Name": "csz.net",
         "Content": "1.1.1.1",
         "Proxied": false
       },
       "Then": {
-        "ZoneID": "",
+        "ZoneID": "相同可不填",
         "Type": "A",
         "Name": "csz.net",
         "Content": "2.2.2.2",
@@ -25,6 +25,7 @@
     },
     {
       "Target": "1.1.1.1:80",
+      "ps": "支持多配置",
       "Main": {
         "ZoneID": "",
         "Type": "A",
