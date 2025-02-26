@@ -27,7 +27,12 @@ func main() {
 			onlineCount := 0
 			online := false
 			for i := 0; i < 3; i++ {
-				if utils.Check(mata.Target, 5*time.Second) {
+				check, status := utils.Check(mata.Target, 5*time.Second)
+				if !check {
+					log.Println("检测失败")
+					continue
+				}
+				if status {
 					onlineCount++
 				}
 				time.Sleep(10 * time.Second)
@@ -42,6 +47,8 @@ func main() {
 					send = true
 					log.Printf("修改解析【%s】\n", mata.Main.Name)
 					utils.Dns(mata.Main, dns.ID, mata.Main.ZoneID)
+				} else {
+					log.Printf("无需修改解析【%s】\n", mata.Main.Name)
 				}
 			} else {
 				msg = "服务器离线"

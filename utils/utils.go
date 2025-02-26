@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -31,11 +32,37 @@ func Tcp(address string, timeout time.Duration) bool {
 	defer conn.Close() // 确保关闭连接
 	return true        // 连接成功
 }
-func Check(address string, timeout time.Duration) bool {
-	if strings.ContainsAny(address, ":") {
-		return Tcp(address, timeout)
+func Check(address string, timeout time.Duration) (bool, bool) {
+	check, status := false, false
+	// 判断是否由远程进行检测
+	if len(conf.Config.Contcp) > 5 {
+		// 检查是否有/结尾
+		if conf.Config.Contcp[len(conf.Config.Contcp)-1:] != "/" {
+			conf.Config.Contcp += "/"
+		}
+		// 发送请求
+		resp, err := http.Get(conf.Config.Contcp + address)
+		if err != nil {
+			return false, false
+		}
+		defer resp.Body.Close()
+		// 获取body内容
+		var body bytes.Buffer
+		_, err = io.Copy(&body, resp.Body)
+		if err != nil {
+			return false, false
+		}
+		check = true
+		if body.String() == "true" {
+			status = true
+		}
+		return check, status
 	}
-	return Ping(address, timeout)
+	check = true
+	if strings.ContainsAny(address, ":") {
+		return check, Tcp(address, timeout)
+	}
+	return check, Ping(address, timeout)
 }
 
 func Dns(record conf.DNSRecord, recordID string, ZoneID string) bool {

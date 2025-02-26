@@ -55,6 +55,11 @@ Telegram ChatID
 
 监控间隔，单位 秒
 
+**Contcp**
+
+通过外部 API 检测，如 `http://1.1.1.1/status/`
+项目见 https://github.com/csznet/contcp/
+
 **Mata**
 
 Main 为当服务器正常时的解析，Then 为当服务器离线时的解析

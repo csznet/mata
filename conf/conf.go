@@ -37,6 +37,7 @@ type cf struct {
 	ChatID   string
 	TgApiUrl string
 	Corn     int64
+	Contcp   string
 	Mata     []Mata
 }
 
