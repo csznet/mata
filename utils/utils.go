@@ -138,3 +138,15 @@ func SendMessage(text string) {
 		fmt.Println("Message sent successfully")
 	}
 }
+
+func Web() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		node := r.URL.Query().Get("node")
+		if node != "" {
+			// 更新Array的值为当前时间
+			conf.Array[node] = int(time.Now().Unix())
+			fmt.Fprintf(w, "ok")
+		}
+	})
+	http.ListenAndServe(":"+conf.WebPort, nil)
+}

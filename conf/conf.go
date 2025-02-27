@@ -42,3 +42,7 @@ type cf struct {
 }
 
 var Config cf
+
+var WebPort = "8080"
+
+var Array = map[string]int{}

@@ -15,6 +15,8 @@ import (
 
 var Once bool
 
+var web bool
+
 func main() {
 	for {
 		for _, mata := range conf.Config.Mata {
@@ -26,19 +28,42 @@ func main() {
 			msg := "服务器在线"
 			onlineCount := 0
 			online := false
-			for i := 0; i < 3; i++ {
-				check, status := utils.Check(mata.Target, 5*time.Second)
-				if !check {
-					log.Println("检测失败")
-					continue
+			// 判断是否为主动检测
+			if !strings.ContainsAny(mata.Target, ".") {
+				if !web {
+					go utils.Web()
+					web = true
 				}
-				if status {
-					onlineCount++
+				// 被动检测
+				if !strings.ContainsAny(mata.Target, ".") {
+					// 判断是否存在map中
+					if value, exists := conf.Array[mata.Target]; !exists {
+						// 初始化时多添加一个周期
+						conf.Array[mata.Target] = int(time.Now().Unix()) + int(conf.Config.Corn)
+						online = true
+						log.Printf("被动检测, %s\n", mata.Target)
+					} else {
+						if value >= int(time.Now().Unix()) {
+							online = true
+						}
+					}
 				}
-				time.Sleep(10 * time.Second)
-			}
-			if onlineCount >= 2 {
-				online = true
+			} else {
+				// 主动检测
+				for i := 0; i < 3; i++ {
+					check, status := utils.Check(mata.Target, 5*time.Second)
+					if !check {
+						log.Println("检测失败")
+						continue
+					}
+					if status {
+						onlineCount++
+					}
+					time.Sleep(10 * time.Second)
+				}
+				if onlineCount >= 2 {
+					online = true
+				}
 			}
 			if online {
 				log.Println(msg)
@@ -77,6 +102,8 @@ func main() {
 }
 func init() {
 	once := flag.Bool("once", false, "Run once")
+	port := flag.String("port", "8080", "Web port")
+	conf.WebPort = *port
 	configPath := flag.String("config", "mata.json", "Config file path")
 	flag.Parse()
 	if *once {
