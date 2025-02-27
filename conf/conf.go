@@ -31,14 +31,15 @@ type Mata struct {
 }
 
 type cf struct {
-	ApiKey   string `json:"cf_api_key"`
-	ZoneID   string
-	BotToken string
-	ChatID   string
-	TgApiUrl string
-	Corn     int64
-	Contcp   string
-	Mata     []Mata
+	ApiKey      string `json:"cf_api_key"`
+	ZoneID      string
+	BotToken    string
+	ChatID      string
+	TgApiUrl    string
+	ServerJiang string
+	Corn        int64
+	Contcp      string
+	Mata        []Mata
 }
 
 var Config cf

@@ -116,7 +116,7 @@ func GetDnsRecoid(recoid string, ZoneID string) (bool, conf.OneRes) {
 	return false, no
 }
 
-func SendMessage(text string) {
+func SendTG(text string) {
 	url := fmt.Sprintf(conf.Config.TgApiUrl+"/bot%s/sendMessage", conf.Config.BotToken)
 	requestBody := fmt.Sprintf(`{"chat_id": "%s", "text": "%s"}`, conf.Config.ChatID, text)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(requestBody)))
@@ -137,6 +137,15 @@ func SendMessage(text string) {
 	} else {
 		fmt.Println("Message sent successfully")
 	}
+}
+
+// SendSJ 发送到Server酱
+func SendSJ(text string) {
+	resp, err := http.Get("https://sc.ftqq.com/" + conf.Config.ServerJiang + ".send?text=" + text)
+	if err != nil {
+		fmt.Println("Error sending request: ", err)
+	}
+	defer resp.Body.Close()
 }
 
 func Web() {

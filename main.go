@@ -89,9 +89,16 @@ func main() {
 					utils.Dns(mata.Then, dns.ID, mata.Then.ZoneID)
 				}
 			}
-			if send && conf.Config.BotToken != "" && conf.Config.ChatID != "" {
-				msg = "【" + mata.PS + "】" + msg
-				go utils.SendMessage("#MATA " + msg)
+			if send {
+				// 发送到TG
+				if conf.Config.BotToken != "" && conf.Config.ChatID != "" {
+					msg = "【" + mata.PS + "】" + msg
+					go utils.SendTG("#MATA " + msg)
+				}
+				// 发送到Server酱
+				if conf.Config.ServerJiang != "" {
+					go utils.SendSJ(msg)
+				}
 			}
 		}
 		if Once {

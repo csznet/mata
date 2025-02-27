@@ -3,6 +3,7 @@
   "BotToken": "Telegram Bot Token",
   "ChatID": "Telegram Chat ID",
   "TgApiUrl": "https://api.telegram.org",
+  "ServerJiang": "",
   "Contcp": "",
   "Corn": 300,
   "Mata": [
