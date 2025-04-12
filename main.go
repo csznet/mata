@@ -44,7 +44,8 @@ func main() {
 						online = true
 						log.Printf("被动检测, %s\n", mata.Target)
 					} else {
-						if value >= int(time.Now().Unix()) {
+						// 如果当前时间 ≤ value + 周期，则判定为在线
+						if value+int(conf.Config.Corn) >= int(time.Now().Unix()) {
 							online = true
 						}
 					}
