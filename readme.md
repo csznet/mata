@@ -13,3 +13,9 @@ A 服务器访问速度快但是不带防御，B 服务器带防御但是访问�
 ## 使用教程
 
 https://n.csz.net/proj/mata/
+
+## 生成配置
+
+支持在线生成配置
+
+https://mata-start.csz.net/

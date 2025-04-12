@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net"
 	"net/http"
 	"strings"
@@ -154,6 +155,7 @@ func Web() {
 		if node != "" {
 			// 更新Array的值为当前时间
 			conf.Array[node] = int(time.Now().Unix())
+			log.Println("更新节点", node, "最后存活时间", conf.Array[node])
 			fmt.Fprintf(w, "ok")
 		}
 	})

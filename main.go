@@ -33,6 +33,7 @@ func main() {
 				if !web {
 					go utils.Web()
 					web = true
+					log.Println("被动检测端口: " + conf.WebPort)
 				}
 				// 被动检测
 				if !strings.ContainsAny(mata.Target, ".") {
@@ -51,7 +52,7 @@ func main() {
 			} else {
 				// 主动检测
 				for i := 0; i < 3; i++ {
-					check, status := utils.Check(mata.Target, 5*time.Second)
+					check, status := utils.Check(mata.Target, 3*time.Second)
 					if !check {
 						log.Println("检测失败")
 						continue
