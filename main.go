@@ -23,7 +23,7 @@ func main() {
 			if mata.PS == "" {
 				mata.PS = mata.Target
 			}
-			log.Println("开始检测" + mata.PS)
+			log.Println("开始检测 " + mata.PS)
 			send := false
 			msg := "服务器在线"
 			onlineCount := 0

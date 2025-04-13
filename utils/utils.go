@@ -155,7 +155,7 @@ func Web() {
 		if node != "" {
 			// 更新Array的值为当前时间
 			conf.Array[node] = int(time.Now().Unix())
-			log.Println("更新节点", node, "最后存活时间", conf.Array[node])
+			log.Println("更新节点", node, "最后存活时间", time.Unix(int64(conf.Array[node]), 0).Format("2006-01-02 15:04:05"))
 			fmt.Fprintf(w, "ok")
 		}
 	})
