@@ -19,3 +19,9 @@ https://n.csz.net/proj/mata/
 支持在线生成配置
 
 https://mata-start.csz.net/
+
+## 一键脚本
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/csznet/mata/main/mata.sh)"
+```
