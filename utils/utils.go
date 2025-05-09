@@ -122,20 +122,21 @@ func SendTG(text string) {
 	requestBody := fmt.Sprintf(`{"chat_id": "%s", "text": "%s"}`, conf.Config.ChatID, text)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(requestBody)))
 	if err != nil {
-		fmt.Println("Error creating request: ", err)
+		log.Println("无法创建请求: ", err)
 		return
 	}
 	req.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error sending request: ", err)
+		log.Println("无法发送请求: ", err)
 		return
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		fmt.Println("Error: ", resp.Status)
+		log.Println("发送失败: ", resp.Status)
 	} else {
+		log.Println("成功发送通知到TG")
 		fmt.Println("Message sent successfully")
 	}
 }

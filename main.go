@@ -89,9 +89,12 @@ func main() {
 					send = true
 					log.Printf("修改解析【%s】\n", mata.Then.Name)
 					utils.Dns(mata.Then, dns.ID, mata.Then.ZoneID)
+				} else {
+					log.Printf("无需修改解析【%s】\n", mata.Main.Name)
 				}
 			}
 			if send {
+				log.Println("开始发送通知")
 				// 发送到TG
 				if conf.Config.BotToken != "" && conf.Config.ChatID != "" {
 					msg = "【" + mata.PS + "】" + msg
@@ -101,6 +104,8 @@ func main() {
 				if conf.Config.ServerJiang != "" {
 					go utils.SendSJ(msg)
 				}
+			} else {
+				log.Println("无需发送通知")
 			}
 		}
 		if Once {
