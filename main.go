@@ -133,7 +133,7 @@ func configInit(path string) {
 	decoder := json.NewDecoder(file)
 	err = decoder.Decode(&conf.Config)
 	if err != nil {
-		fmt.Println(path + "配置文件错误")
+		fmt.Println("配置文件错误\n路径" + path + "\n错误" + err.Error())
 		os.Exit(0)
 	}
 	conf.Config.TgApiUrl = strings.TrimRight(conf.Config.TgApiUrl, "/")
