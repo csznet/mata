@@ -24,7 +24,7 @@ func main() {
 
 		for _, mata := range conf.Config.Mata {
 			wg.Add(1)
-			go func(mata conf.MataConfig) {
+			go func(mata conf.Mata) {
 				defer wg.Done()
 
 				if mata.PS == "" {
