@@ -15,7 +15,6 @@ import (
 )
 
 var Once bool
-var web bool
 var webOnce sync.Once // 确保 Web 只启动一次
 
 func main() {
@@ -41,7 +40,6 @@ func main() {
 					// 启动 Web，只执行一次
 					webOnce.Do(func() {
 						go utils.Web()
-						web = true
 						log.Println("被动检测端口: " + conf.WebPort)
 					})
 
