@@ -86,7 +86,13 @@ func main() {
 						mata.Then.ZoneID = mata.Main.ZoneID
 					}
 					ok, dns := utils.GetDnsRecoid(mata.Then.Name, mata.Then.ZoneID)
-					if ok && dns.Content != mata.Then.Content {
+					if ok {
+						log.Printf("获取解析【%s】成功\n", mata.Then.Name)
+					} else {
+						log.Printf("获取解析【%s】失败\n", mata.Then.Name)
+						return
+					}
+					if dns.Content != mata.Then.Content {
 						send = true
 						log.Printf("修改解析【%s】\n", mata.Then.Name)
 						utils.Dns(mata.Then, dns.ID, mata.Then.ZoneID)
