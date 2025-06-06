@@ -47,6 +47,9 @@ func main() {
 						if value+int(conf.Config.Corn) >= int(time.Now().Unix()) {
 							online = true
 						}
+					} else {
+						conf.Array[mata.Target] = int(time.Now().Unix()) + int(conf.Config.Corn)
+						online = true
 					}
 					if !online {
 						// 加入离线时间
