@@ -33,12 +33,12 @@ if [[ -d "$INSTALL_DIR" ]]; then
     # 如果服务已存在，先停止服务
     if systemctl list-units --type=service | grep -q "mata.service"; then
         echo "停止现有服务..."
-        sudo systemctl stop mata
+        systemctl stop mata
     fi
 
     # 删除旧目录
     echo "删除旧的安装目录..."
-    sudo rm -rf "$INSTALL_DIR"
+    rm -rf "$INSTALL_DIR"
 fi
 
 # 下载文件
@@ -47,19 +47,19 @@ curl -L -o /tmp/$FILE_NAME "$RELEASE_URL/$FILE_NAME"
 
 # 创建安装目录
 echo "创建安装目录 $INSTALL_DIR..."
-sudo mkdir -p $INSTALL_DIR
+mkdir -p $INSTALL_DIR
 
 # 解压文件
 echo "解压到 $INSTALL_DIR..."
-sudo unzip -o /tmp/$FILE_NAME -d $INSTALL_DIR
+unzip -o /tmp/$FILE_NAME -d $INSTALL_DIR
 
 # 清理临时文件
 rm /tmp/$FILE_NAME
 
 # 配置 systemctl 服务
 echo "配置 systemctl 服务..."
-sudo bash -c "cat > $SERVICE_FILE" <<EOL
-[Unit]
+
+SERVICE_CONTENT="[Unit]
 Description=Mata Service
 After=network.target
 
@@ -71,12 +71,31 @@ User=root
 
 [Install]
 WantedBy=multi-user.target
-EOL
+"
+
+if [[ -f "$SERVICE_FILE" ]]; then
+    # 检查内容是否一致
+    EXISTING_CONTENT=$(cat "$SERVICE_FILE")
+    if [[ "$EXISTING_CONTENT" == "$SERVICE_CONTENT" ]]; then
+        echo "$SERVICE_FILE 已存在且内容一致，跳过写入。"
+    else
+        read -p "$SERVICE_FILE 已存在，内容不同，是否覆盖？(y/n): " OVERWRITE
+        if [[ "$OVERWRITE" == "y" ]]; then
+            echo "$SERVICE_CONTENT" >"$SERVICE_FILE"
+            echo "已覆盖 $SERVICE_FILE"
+        else
+            echo "未覆盖 $SERVICE_FILE"
+        fi
+    fi
+else
+    echo "$SERVICE_CONTENT" >"$SERVICE_FILE"
+    echo "已创建 $SERVICE_FILE"
+fi
 
 # 重新加载 systemctl 并启动服务
 echo "重新加载 systemctl ..."
-sudo systemctl daemon-reload
-sudo systemctl enable mata
+systemctl daemon-reload
+systemctl enable mata
 
 echo "安装完成！"
 echo "配置文件位置: $INSTALL_DIR/mata.json"
