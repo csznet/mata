@@ -37,22 +37,31 @@ func main() {
 				online := false
 
 				if !strings.ContainsAny(mata.Target, ".") {
+					// 心跳包检测
 					// 启动 Web，只执行一次
 					webOnce.Do(func() {
 						go utils.Web()
 						log.Println("被动检测端口: " + conf.WebPort)
 					})
-
-					if value, exists := conf.Array[mata.Target]; !exists {
-						conf.Array[mata.Target] = int(time.Now().Unix()) + int(conf.Config.Corn)
-						online = true
-						log.Printf("被动检测, %s\n", mata.Target)
-					} else {
+					if value, exists := conf.Array[mata.Target]; exists {
 						if value+int(conf.Config.Corn) >= int(time.Now().Unix()) {
 							online = true
 						}
 					}
+					if !online {
+						// 加入离线时间
+						conf.ArrayFail[mata.Target] = int(time.Now().Unix())
+					} else {
+						// 防止仰卧起坐
+						if value, exists := conf.ArrayFail[mata.Target]; exists {
+							// 如果存在离线时间，判断是否超过两倍的心跳时间
+							if int(time.Now().Unix())-value < int(conf.Config.Corn*2) {
+								online = false
+							}
+						}
+					}
 				} else {
+					// 主动检测
 					for i := 0; i < 3; i++ {
 						check, status := utils.Check(mata.Target, 3*time.Second)
 						if !check {

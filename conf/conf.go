@@ -47,3 +47,5 @@ var Config cf
 var WebPort = "8080"
 
 var Array = map[string]int{}
+
+var ArrayFail = map[string]int{}
